@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block statico %}
+
+{% endblock %}
+
+{% block titulo %}
+    Logeo
+{% endblock %}
+
+{% block cuerpo %}
+    <div class="main">
+        <div class="logeo">
+            <form method="post">{% csrf_token %}
+                <h5>Nombre de Usuario</h5>
+                <input type="text" name="usuario" autocomplete="off" required maxlength="30"> <br><br>
+                <h5>Contraseña</h5>
+                <input type="password" name="clave" autocomplete="off" required maxlength="10"> <br><br>
+                <a href="{% url 'registro' %}"> Registrarse </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="submit" value="Entrar">
+            </form>
+        </div>
+        <div class="fondo"></div>
+    </div>
+{% endblock %}
