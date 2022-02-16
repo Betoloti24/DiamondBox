@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block statico %}
-
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/inventario.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block titulo %}
@@ -10,7 +10,68 @@
 {% endblock %}
 
 {% block cuerpo %}
-    <h1>
-        BIENVENIDO
-    </h1>
+    <div class="izq">
+        <form method="POST"> {% csrf_token %}
+            <input type="hidden" name="accion" value="agregarM">
+            <input type="submit" class="acciones btn btn-outline-primary" value="Agregar Material"> 
+        </form>
+        <form method="POST"> {% csrf_token %}
+            <input type="hidden" name="accion" value="agregarP">
+            <input type="submit" class="acciones btn btn-outline-warning" value="Agregar Producto"> 
+        </form>
+        <form method="POST"> {% csrf_token %}
+            <input type="hidden" name="accion" value="Consultar">
+            <input type="submit" class="acciones btn btn-outline-success" value="Consultar"> 
+        </form>
+        <h3>Categorias</h3>
+    </div>
+    <div class="der">
+        {% for producto in productos %}
+            <div class="objeto">
+                <div class="imagen">
+                    <img src="{{ producto.imagen }}" alt="">
+                </div>
+                <h5>{{ producto.nombre }}</h5> 
+                <h6> Precio: {{ producto.precio }}$ <br>
+                Categoria: {{ producto.categoria }} <br>
+                Identificacion: P{{ producto.cod }}</h6>
+                
+                <form method="POST"> {% csrf_token %}
+                    <input type="hidden" name="tipo" value="producto">
+                    <input type="hidden" name="accion" value="modificar">
+                    <input type="hidden" name="codigo" value="{{producto.cod}}">
+                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Actualizar">
+                </form>
+                <form method="POST"> {% csrf_token %}
+                    <input type="hidden" name="tipo" value="producto">
+                    <input type="hidden" name="accion" value="eliminar">
+                    <input type="hidden" name="codigo" value="{{producto.cod}}">
+                    <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
+                </form>
+            </div>
+        {% endfor %}
+        {% for material in materiales %}
+            <div class="objeto">
+                <div class="imagen">
+                    <img src="{{ material.imagen }}" alt="">
+                </div>
+                <h5>{{ material.nombre }}</h5> 
+                <h6> Precio: {{ material.precio }}$ <br>
+                Corte: {{ material.corte }} <br>
+                Identificacion: P{{ material.cod }} </h6>
+                <form method="POST"> {% csrf_token %}
+                    <input type="hidden" name="tipo" value="material">
+                    <input type="hidden" name="accion" value="modificar">
+                    <input type="hidden" name="codigo" value="{{material.cod}}">
+                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Actualizar">
+                </form>
+                <form method="POST"> {% csrf_token %}
+                    <input type="hidden" name="tipo" value="material">
+                    <input type="hidden" name="accion" value="eliminar">
+                    <input type="hidden" name="codigo" value="{{material.cod}}">
+                    <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
+                </form>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

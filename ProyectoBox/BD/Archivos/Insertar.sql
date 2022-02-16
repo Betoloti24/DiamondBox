@@ -87,7 +87,7 @@
     ('Yesquero', 'Cómodos y prácticos, se recargan con benzina, de material liso y con relieves de figuras. ', 50.00, 'Yesquero.jfif', NULL, NULL);
     -- DATOS DE LA TABLA DE PRODUCTOS
     insert into proyectobox.productos (nombre,precio,categoria,imagen) values
-    ('Collar de Bisutería de Piedra de Ágata', 15000, 'COLLAR', 'Collar de Bisutería de Piedra de Agata.png'), 
+    ('Collar de Bisutería de Piedra de Ágata', 15000, 'COLLAR', 'Collar de Bisutería de Piedra de Agata.jpg'), 
     ('Agata Ruiz de la Prada', 9000, 'ANILLO', 'Agata Ruiz de la Prada.jpg'),
     ('Pulsera de Plata con Agata Azul Turquesa', 12000, 'PULCERA', 'Pulsera de Plata con Agata Azul Turquesa.jpg'),
     ('Anillo de Plata con Amatista', 10000, 'ANILLO', 'Anillo de Plata con Amatista.jpg'),

@@ -1,0 +1,30 @@
+/* Estilos de las opciones */
+.acciones{
+    min-width: 100% !important;
+    margin: 10px 0;
+}
+
+/* Estilos del inventario */
+.imagen{
+    background-color: #adb5bd;
+    width: 250px;
+    height: 250px;
+    margin: 0 0 10px 0;
+}
+img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+
+.objeto{
+    display: inline-table;
+    border: #adb5bd solid 2px;
+    border-radius: 5px;
+    text-align: left !important;
+    width: 265px;
+    height: 345px;
+    
+    padding: 5px;
+    margin: 5px 20px;
+}
