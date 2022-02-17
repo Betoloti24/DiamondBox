@@ -20,10 +20,14 @@
             <input type="submit" class="acciones btn btn-outline-warning" value="Agregar Producto"> 
         </form>
         <form method="POST"> {% csrf_token %}
-            <input type="hidden" name="accion" value="Consultar">
+            <input type="hidden" name="accion" value="consultar">
             <input type="submit" class="acciones btn btn-outline-success" value="Consultar"> 
         </form>
-        <h3>Categorias</h3>
+        <br><br><br>
+        <br><br><br>
+        {% if errormaterial == True %}
+            <h5>ERROR, el material a eliminar es parte de algunos productos registrados, elimine las referencias</h5>
+        {% endif %}
     </div>
     <div class="der">
         {% for producto in productos %}
@@ -37,14 +41,12 @@
                 Identificacion: P{{ producto.cod }}</h6>
                 
                 <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="tipo" value="producto">
-                    <input type="hidden" name="accion" value="modificar">
+                    <input type="hidden" name="accion" value="modificarP">
                     <input type="hidden" name="codigo" value="{{producto.cod}}">
-                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Actualizar">
+                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Modificar">
                 </form>
                 <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="tipo" value="producto">
-                    <input type="hidden" name="accion" value="eliminar">
+                    <input type="hidden" name="accion" value="eliminarP">
                     <input type="hidden" name="codigo" value="{{producto.cod}}">
                     <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
                 </form>
@@ -60,14 +62,12 @@
                 Corte: {{ material.corte }} <br>
                 Identificacion: P{{ material.cod }} </h6>
                 <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="tipo" value="material">
-                    <input type="hidden" name="accion" value="modificar">
+                    <input type="hidden" name="accion" value="modificarM">
                     <input type="hidden" name="codigo" value="{{material.cod}}">
-                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Actualizar">
+                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Modificar">
                 </form>
                 <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="tipo" value="material">
-                    <input type="hidden" name="accion" value="eliminar">
+                    <input type="hidden" name="accion" value="eliminarM">
                     <input type="hidden" name="codigo" value="{{material.cod}}">
                     <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
                 </form>

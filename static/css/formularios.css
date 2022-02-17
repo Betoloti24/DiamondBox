@@ -1,0 +1,10 @@
+/* Selectores */
+.main{
+    padding: 20px !important;
+}
+
+/* Parte Izquierda */
+.acciones{
+    min-width: 100% !important;
+    margin: 10px 0;
+}

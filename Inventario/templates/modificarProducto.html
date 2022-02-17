@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block statico %}
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/formularios.css' %}?{% now 'U' %}">
+{% endblock %}
+
+{% block titulo %}
+    Modificar Producto
+{% endblock %}
+
+{% block cuerpo %}
+    <div class="izq">  
+        <a href="{% url 'inventario' %}" class="acciones btn btn-outline-info">Inventario</a>
+        <a href="{% url 'agregarM' %}" class="acciones btn btn-outline-primary">Agregar Material</a>
+        <a href="{% url 'agregarP' %}" class="acciones btn btn-outline-warning">Agergar Producto</a>
+        <a href="{% url 'consultar' %}" class="acciones btn btn-outline-success">Consultar</a>
+        {% if errorDato == True %}
+            <h4>ERROR, debe de completar todos los campos</h4>
+        {% endif %}
+    </div>
+    <div class="der" style="text-align: justify !important;">
+        <h2>Modificar Producto</h2>
+        <form method="POST"> {% csrf_token %}
+            <h5>Ingrese el Nombre del Producto</h5>
+            <input type="text" name="nombre" value="{{ producto.nombre }}" autocomplete="off" required> <br><br>
+            <h5>Ingrese el Precio del Producto</h5>
+            <input type="number" name="precio" value="{{ producto.precio }}" min="0" autocomplete="off" required> <br><br>
+            <h5>Seleccione la Categoria del Producto</h5>
+            <select name="categoria">
+                <option value="off">SELECCIONAR</option>
+                <option value="TIARA" {% if producto.categoria == 'TIARA' %} selected {% endif %}>TIARA</option>
+                <option value="ANILLO" {% if producto.categoria == 'ANILLO' %} selected {% endif %}>ANILLO</option>
+                <option value="COLLAR" {% if producto.categoria == 'COLLAR' %} selected {% endif %}>COLLAR</option>
+                <option value="PULCERA" {% if producto.categoria == 'PULCERA' %} selected {% endif %}>PULCERA</option>
+                <option value="ARETES" {% if producto.categoria == 'ARETES' %} selected {% endif %}>ARETES</option>
+            </select> <br><br>
+            <h5>Seleccione los Materiales del Producto</h5>
+            {% for material in materiales %}
+                <input type="checkbox" class="form-check-label" name="M{{ material.cod }}" {% if material.cod in check %} checked {% endif %}> {{ material.nombre }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% endfor %} <br> <br>
+            <input type="submit" class="btn btn-outline-success" value="Actualizar">
+        </form>
+    </div>
+{% endblock %}

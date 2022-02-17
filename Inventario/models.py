@@ -10,8 +10,14 @@ class Material():
         self.precio = parametros[3]
         self.imagen = f"../static/img/Materiales/{parametros[4]}"
         self.corte = parametros[5]
-        self.origen = parametros[6]
+        self.origen = str(parametros[6])
         self.position = 0
+
+    # Metodos get
+    def getcod (self):
+        return self.cod
+    def getnombre (self):
+        return self.nombre
 
     # Metodos set
     def setposition (self, position):
@@ -51,4 +57,11 @@ class Producto ():
     # Metodo para ingresar un nuevo material
     def addMaterial (self, material):
         self.materiales.append(material)
+
+# Clase Paises
+class Pais():
+    def __init__(self, *args):
+        parametros = args[0]
+        self.cod = parametros[0]
+        self.nombre = parametros[1]
     

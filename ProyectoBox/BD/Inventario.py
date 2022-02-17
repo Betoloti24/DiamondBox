@@ -1,4 +1,6 @@
+from wsgiref.validate import validator
 from mysql.connector import connect
+from Inventario.models import Material, Producto
 
 # Funcion para consultar la lista de productos
 def consultarProductos():
@@ -56,6 +58,211 @@ def consultarMateriales():
     # Cerrar conexion
     conexion.close()
 
-    # Creamos la lista de objetos tipo productos
+    return lista
+
+# Funcion para determinar si el material esta siendo usado en un producto
+def consultarComposicion(material):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"SELECT * FROM proyectobox.p_m ppm WHERE ppm.cod_material = {material}"
+    cursor.execute(DML)
+    validacion = cursor.fetchall()
+
+    # Cerrar conexion
+    conexion.close()
+
+    return len(validacion) == 0
+
+# Funcion para eliminar un material
+def eliminarMaterial(cod):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"DELETE FROM proyectobox.materiales pp WHERE pp.cod = {cod};"
+    cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+    
+# Funcion para eliminar un producto
+def eliminarProducto(cod):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"DELETE FROM proyectobox.p_m ppm WHERE ppm.cod_producto = {cod};"
+    cursor.execute(DML)
+
+    DML = f"DELETE FROM proyectobox.productos pp WHERE pp.cod = {cod};"
+    cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+
+# Funcion para consultar un producto
+def consultarProducto(cod):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"SELECT * FROM proyectobox.productos WHERE cod = {cod}"
+    cursor.execute(DML)
+
+    objeto = cursor.fetchall()
+    if (len(objeto) != 0):
+        objeto = Producto(objeto[0])
+
+        # Creamos la lista de materiales
+        materiales = consultarMaterialesProd(cod)
+
+        # Asignamos materiales
+        for material in materiales:
+            objeto.addMaterial(Material(material))
+    else:
+        objeto = None
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.close()
+
+    return objeto
+
+# Consultar material
+def consultarMaterial(cod):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"SELECT pm.cod, pm.nombre, pm.descripcion, pm.precio, pm.imagen, pm.corte, pp.nombre as origen  FROM proyectobox.materiales pm LEFT JOIN proyectobox.paises pp on pm.origen = pp.cod WHERE pm.cod = {cod}"
+    cursor.execute(DML)
+
+    objeto = cursor.fetchall()
+    if (len(objeto) != 0):
+        objeto = Material(objeto[0])
+    else:
+        objeto = None
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.close()
+
+    return objeto
+
+# Modificar material
+def updateMaterial(cod, nombre, descripcion, precio, corte, origen):
+     # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', descripcion = '{descripcion}', precio = {precio}, corte = '{corte}', origen = {origen} WHERE cod = {cod}"
+    cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+
+# Modificar producto
+def updateProducto(cod, nombre, precio, categoria, materiales):
+     # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"UPDATE proyectobox.productos set nombre = '{nombre}', precio = {precio}, categoria = '{categoria}' WHERE cod = {cod}"
+    cursor.execute(DML)
+
+    # Eliminamos las referencias del p_m
+    DML = f"DELETE FROM proyectobox.p_m ppm WHERE ppm.cod_producto = {cod}"
+    cursor.execute(DML)
+    conexion.commit()
+
+    # Insertamos los materiales del producto
+    for material in materiales:
+        DML = f"INSERT INTO proyectobox.p_m VALUES ({cod},{material})"
+        cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+
+# Ingresar material
+def ingresarMaterial(nombre, descripcion, precio, corte, origen):
+     # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"INSERT INTO proyectobox.materiales (nombre,descripcion,precio,corte,origen,imagen) VALUES ('{nombre}', '{descripcion}', {precio}, '{corte}', {origen}, '')"
+    cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+
+# Ingresar producto
+def ingresarProducto(nombre, precio, categoria, materiales):
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"INSERT INTO proyectobox.productos (nombre,precio,categoria,imagen) VALUES ('{nombre}', {precio}, '{categoria}', '')"
+    cursor.execute(DML)
+
+    # Insertamos los materiales del producto
+    DML = f"SELECT max(cod) FROM proyectobox.productos"
+    cursor.execute(DML)
+    cod = cursor.fetchall()[0][0]
+    for material in materiales:
+        DML = f"INSERT INTO proyectobox.p_m VALUES ({cod},{material})"
+        cursor.execute(DML)
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.commit()
+    conexion.close()
+
+# Consultar paises
+def consultarPaises():
+    # Realizar conexion
+    conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
+
+    # Crear cursor
+    cursor = conexion.cursor()
+
+    # Creamos y ejecutamos el DML
+    DML = f"SELECT cod, nombre FROM proyectobox.paises ORDER BY nombre"
+    cursor.execute(DML)
+
+    lista = cursor.fetchall()
+
+    # Hacer permanente los cambios y cerrar conexion
+    conexion.close()
 
     return lista

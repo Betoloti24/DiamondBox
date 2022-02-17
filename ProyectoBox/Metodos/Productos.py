@@ -1,5 +1,5 @@
-from Inventario.models import Producto, Material
-from ProyectoBox.BD.Inventario import consultarProductos, consultarMaterialesProd, consultarMateriales
+from Inventario.models import Pais, Producto, Material
+from ProyectoBox.BD.Inventario import *
 
 # Metodo para crear la lista de productos
 def listaProductos():
@@ -33,3 +33,28 @@ def listaMateriales():
         lista.append(Material(prod))
 
     return lista
+
+# Metodo para crear la lista de paises
+def listaPaises():
+    # Consultamos la lista de paises en la BD
+    listaprod = consultarPaises()
+    lista = []
+
+    # Creamos la lista de los paises
+    for prod in listaprod:
+        lista.append(Pais(prod))
+
+    return lista
+
+# Metodo para crear la lista de materiales
+def listaMaterialesProd(materiales):
+    # Consultamos la lista de materiales en la BD
+    lista = []
+
+    # Creamos la lista de los materiales
+    for material in materiales:
+        m = Material(material)
+        lista.append(m.getcod())
+
+    return lista
+
