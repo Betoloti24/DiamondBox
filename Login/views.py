@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 # Create your views here.
 # Vista de logeo
 def logeo(request):
+    # Declaracion de variables
+    ErrorUsuario = False
     # Verificamos si se ha enviado un metodo post
     if (request.method == "POST"):
         # Extraemos los datos
@@ -17,12 +19,22 @@ def logeo(request):
             http = HttpResponseRedirect(url)
             return http
         else:
-            print(f"No existe")
+            ErrorUsuario = True
 
-    return render(request, 'logeo.html')
+    # Declaramos el Contexto
+    contexto = {
+        "ErrorUsuario": ErrorUsuario,
+    }
+
+    print(ErrorUsuario)
+
+    return render(request, 'logeo.html', contexto)
 
 # Vista de registro
 def registro(request):
+    # Declaracion de variables
+    Error = False
+    Mensaje = ""
     if (request.method == "POST"):
         # Extraemos los datos
         usuario = request.POST["usuario"]
@@ -38,8 +50,16 @@ def registro(request):
                 http = HttpResponseRedirect(url)
                 return http
             else:
-                print(f"El usuario ya existe")
+                Error = True
+                Mensaje = f"¡¡ERROR!!, el usuario '{usuario}' ya está registrado en la base de datos, vuelva a intentar con otro usuario."
         else:
-            print(f"Clave de seguridad no valida")
+            Error = True
+            Mensaje = f"¡¡ERROR!!, la clave de segurodad ingresada no es válida, comuníquese con el administrador y vuelva a intentar."
 
-    return render(request, 'registro.html')
+    # Definir el contexto
+    contexto = {
+        "Error": Error,
+        "Mensaje": Mensaje,
+    }
+    
+    return render(request, 'registro.html', contexto)

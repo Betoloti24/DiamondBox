@@ -14,7 +14,7 @@
 
 <center>
 
-![Imagen Modificar Producto](https://imgur.com/B4MA58I.png)
+![Imagen Modificar Product](https://imgur.com/B4MA58I.png)
 
 </center>
 

@@ -1,0 +1,12 @@
+.izq{
+    color: #F3EDED !important;
+}
+
+h1, h2, h3, h4, h5, h6{
+    -webkit-text-stroke: 1px #7F7F7F !important;
+    text-shadow: 2.5px 2px #7F7F7F !important;
+}
+
+img{
+    width: 300px !important;
+}

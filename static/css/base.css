@@ -1,21 +1,17 @@
 body{
-    background-color: #1c1b1b !important;
+    background-image: url("../img/fondo1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Copperplate Gothic Bold';
 }
 
 .izq{
-    background-color: #303030;
-    width: 20%;
     height: 100%;
     position:  fixed;
-    float: left;
-    padding: 1.5rem;
-    text-align: center;
+    background-color: #AFABAB;
 }
 
-.der{
-    width: 80%;
-    height: 100%;
-    float: right;
-    padding: 1.5rem;
-    text-align: center;
+@font-face {
+    font-family: "Copperplate Gothic Bold";
+    src: url("../copperplategothicbold.ttf");
 }
