@@ -1,30 +1,33 @@
-/* Estilos de las opciones */
-.acciones{
-    min-width: 100% !important;
-    margin: 10px 0;
-}
-
 /* Estilos del inventario */
 .imagen{
-    background-color: #adb5bd;
-    width: 250px;
-    height: 250px;
-    margin: 0 0 10px 0;
-}
-img{
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
+    width: 180px !important;
+    height: 180px !important;
+    object-fit: contain !important;
 }
 
+/* Fichas de productos */
 .objeto{
-    display: inline-table;
-    border: #adb5bd solid 2px;
-    border-radius: 5px;
-    text-align: left !important;
-    width: 265px;
-    height: 345px;
-    
-    padding: 5px;
-    margin: 5px 20px;
+    background-color: #F2F2F2 !important;
+    height: 330px !important;
+    width: 550px !important;
+    box-shadow: rgba(14, 30, 37, 0.6) 0px 2px 4px 0px, rgba(14, 30, 37, 0.6) 0px 2px 16px 0px;
 }
+/* Imagen del producto */
+.bgimagen{
+    height: 200px !important;
+}
+/* Nombre del producto */
+.nombre{
+    min-height: 60px !important;
+}
+/* Datos del Objeto */
+.contenido{
+    height: 180px !important;
+}
+
+/* Eliminar el margen inferior de los titulos */
+h1, h2, h3, h4, h5, h6{
+    margin-bottom: 0px;
+}
+
+

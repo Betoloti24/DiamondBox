@@ -10,7 +10,20 @@
 {% endblock %}
 
 {% block cuerpo %}
-    <div class="izq">  
+    <div class="container px-0 mx-0">
+        <div class="row">
+            <div class="izq col-3 text-center py-5 px-0">
+                <img src="../../static/img/logo1.png" class="logo mb-5 ms-3" alt=""> 
+                <a href="{% url 'inventario' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3 mt-5"><h3 class="mb-0">Inventario</h3></button></a>
+                <a href="{% url 'agregarP' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Agregar Producto</h3></button></a>
+                <a href="{% url 'consultar' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Consultar</h3></button></a>
+            </div>
+            <div class="col-9">
+
+            </div>
+        </div>
+    </div>
+    <!-- <div class="izq">  
         <a href="{% url 'inventario' %}" class="acciones btn btn-outline-info">Inventario</a>
         <a href="{% url 'agregarP' %}" class="acciones btn btn-outline-warning">Agergar Producto</a>
         <a href="{% url 'consultar' %}" class="acciones btn btn-outline-success">Consultar</a>
@@ -50,5 +63,5 @@
             <textarea name="descripcion" id="" cols="50" rows="5">{{ material.descripcion }}</textarea> <br> <br>
             <input type="submit" class="btn btn-outline-success" value="Actualizar">
         </form>
-    </div>
+    </div> -->
 {% endblock %}

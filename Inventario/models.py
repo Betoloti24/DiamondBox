@@ -10,7 +10,8 @@ class Material():
         self.precio = parametros[3]
         self.imagen = f"../static/img/Materiales/{parametros[4]}"
         self.corte = parametros[5]
-        self.origen = str(parametros[6])
+        self.cantidad = parametros[6]
+        self.origen = str(parametros[7])
         self.position = 0
 
     # Metodos get
@@ -32,7 +33,8 @@ class Producto ():
         self.nombre = parametros[1]
         self.precio = parametros[2]
         self.categoria = parametros[3]
-        self.imagen = f"../static/img/Productos/{parametros[4]}"
+        self.cantidad = parametros[4]
+        self.imagen = f"../static/img/Productos/{parametros[5]}"
         self.materiales = []
         self.position = 0
     

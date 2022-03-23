@@ -3,6 +3,7 @@
 
 {% block statico %}
     <link rel="stylesheet" type="text/css" href="{% static 'CSS/inventario.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/base2.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block titulo %}
@@ -10,68 +11,149 @@
 {% endblock %}
 
 {% block cuerpo %}
-    <div class="izq">
-        <form method="POST"> {% csrf_token %}
-            <input type="hidden" name="accion" value="agregarM">
-            <input type="submit" class="acciones btn btn-outline-primary" value="Agregar Material"> 
-        </form>
-        <form method="POST"> {% csrf_token %}
-            <input type="hidden" name="accion" value="agregarP">
-            <input type="submit" class="acciones btn btn-outline-warning" value="Agregar Producto"> 
-        </form>
-        <form method="POST"> {% csrf_token %}
-            <input type="hidden" name="accion" value="consultar">
-            <input type="submit" class="acciones btn btn-outline-success" value="Consultar"> 
-        </form>
-        <br><br><br>
-        <br><br><br>
-        {% if errormaterial == True %}
-            <h5>ERROR, el material a eliminar es parte de algunos productos registrados, elimine las referencias</h5>
-        {% endif %}
+
+    {% if errormaterial %}
+    <div class="alert alert-dismissible alert-danger fixed-bottom mb-0 rounded-0">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="d-flex align-items-start">
+            <svg class="bi flex-shrink-0 me-5" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div class="ms-4 mb-0">¡¡ERROR!!, el material que desea eliminar se utiliza en productos a la venta, elimine esos productos antes de eliminar el material.</div>
+        </div>
     </div>
-    <div class="der">
-        {% for producto in productos %}
-            <div class="objeto">
-                <div class="imagen">
-                    <img src="{{ producto.imagen }}" alt="">
+    {% endif %}
+
+    <div class="row">
+        <div class="izq col-3 text-center py-5 px-0">
+            <img src="../../static/img/logo1.png" class="logo mb-5 ms-3" alt=""> 
+            <a href="{% url 'agregarP' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3 mt-5"><h3 class="mb-0">Agregar Producto</h3></button></a>
+            <a href="{% url 'agregarM' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Agregar Material</h3></button></a>
+            <a href="{% url 'consultar' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Consultar</h3></button></a>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-9 p-4 d-block">
+            <div class="row px-4 d-flex justify-content-between">
+                {% for producto in productos %}
+                <div class="objeto px-0 rounded mb-4">
+                    <div class="row px-0">
+                        <div class="col-5">
+                            <div class="bgimagen d-flex justify-content-center">
+                                <img src="{{ producto.imagen }}" class="imagen mt-3" alt="">
+                            </div>
+                        </div>
+                        <div class="contenido col-7 mt-3 d-flex align-items-center p-0">
+                            <h4 class="text-primary"> Identificacion: P{{ producto.cod }} <br>
+                            Precio: {{ producto.precio }}$ <br>
+                            Categoria: {{ producto.categoria }} <br>
+                            Cantidad: {{ producto.cantidad }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="nombre row mt-1">
+                        <div class="col-12 ms-3 pe-5 text-dark d-flex align-items-center">
+                            <h4>{{ producto.nombre }}</h4> 
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-12 mx-3 d-flex justify-content-end">
+                            <form method="POST" class="me-2"> {% csrf_token %}
+                                <input type="hidden" name="accion" value="modificarP">
+                                <input type="hidden" name="codigo" value="{{producto.cod}}">
+                                <input class="btn btn-success btn-lg" type="submit" value="Modificar">
+                            </form>
+                            <input class="btn btn-danger btn-lg me-4" data-bs-toggle="modal" data-bs-target="#modalEP{{ producto.cod }}" type="submit" value="Eliminar">
+                        </div>
+                    </div>
                 </div>
-                <h5>{{ producto.nombre }}</h5> 
-                <h6> Precio: {{ producto.precio }}$ <br>
-                Categoria: {{ producto.categoria }} <br>
-                Identificacion: P{{ producto.cod }}</h6>
-                
-                <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="accion" value="modificarP">
-                    <input type="hidden" name="codigo" value="{{producto.cod}}">
-                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Modificar">
-                </form>
-                <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="accion" value="eliminarP">
-                    <input type="hidden" name="codigo" value="{{producto.cod}}">
-                    <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
-                </form>
-            </div>
-        {% endfor %}
-        {% for material in materiales %}
-            <div class="objeto">
-                <div class="imagen">
-                    <img src="{{ material.imagen }}" alt="">
+                {% endfor %}
+                {% for material in materiales %}
+                <div class="objeto px-0 rounded mb-2">
+                    <div class="row px-0">
+                        <div class="col-5">
+                            <div class="bgimagen d-flex justify-content-center">
+                                <img src="{{ material.imagen }}" class="imagen mt-3" alt="">
+                            </div>
+                        </div>
+                        <div class="contenido col-7 mt-3 d-flex align-items-center p-0">
+                            <h4 class="text-primary"> Identificacion: M{{ material.cod }} <br>
+                            Precio: {{ material.precio }}$ <br>
+                            Corte: {{ material.corte }} <br>
+                            Origen: {{ material.origen }} <br>
+                            Cantidad: {{ material.cantidad }}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="nombre row mt-1">
+                        <div class="col-12 ms-3 pe-5 text-dark d-flex align-items-center">
+                            <h4>{{ material.nombre }}</h4> 
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-12 mx-3 d-flex justify-content-end">
+                            <form method="POST" class="me-2"> {% csrf_token %}
+                                <input type="hidden" name="accion" value="modificarM">
+                                <input type="hidden" name="codigo" value="{{material.cod}}">
+                                <input class="btn btn-success btn-lg" type="submit" value="Modificar">
+                            </form>
+                            <input class="btn btn-danger btn-lg me-4" data-bs-toggle="modal" data-bs-target="#modalEM{{ material.cod }}" type="submit" value="Eliminar">
+                        </div>
+                    </div>
                 </div>
-                <h5>{{ material.nombre }}</h5> 
-                <h6> Precio: {{ material.precio }}$ <br>
-                Corte: {{ material.corte }} <br>
-                Identificacion: P{{ material.cod }} </h6>
-                <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="accion" value="modificarM">
-                    <input type="hidden" name="codigo" value="{{material.cod}}">
-                    <input class="btn btn-outline-info" style="float: left;" type="submit" value="Modificar">
-                </form>
-                <form method="POST"> {% csrf_token %}
-                    <input type="hidden" name="accion" value="eliminarM">
-                    <input type="hidden" name="codigo" value="{{material.cod}}">
-                    <input class="btn btn-outline-danger" style="float: right" type="submit" value="X">
-                </form>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
+
+    <!-- MODAL -->
+    {% for producto in productos %}
+    <div class="modal fade" id="modalEP{{ producto.cod }}" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal2" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Cuerpo del header -->
+                <div class="modal-header">
+                    <h2>AVISO!!</h2>
+                </div>
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <p class="h4">Se va a eliminar de la base de datos el producto "<i>{{ producto.nombre }}</i>". ¿Está seguro que desea continuar? </p>
+                </div>
+                <!-- Cuerpo del footer -->
+                <div class="modal-footer">
+                    <input class="btn btn-danger btn-lg" type="button" value="Cancelar" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <!-- <button class="btn btn-danger btn-lg" data-bs-dismiss="modal" aria-label="Cerrar"><h4>Cancelar</h4></button> -->
+                    <form method="POST"> {% csrf_token %}
+                        <input type="hidden" name="accion" value="eliminarP">
+                        <input type="hidden" name="codigo" value="{{producto.cod}}">
+                        <input class="btn btn-primary btn-lg" type="submit" value="Eliminar">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% for material in materiales %}
+    <div class="modal fade" id="modalEM{{ material.cod }}" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal2" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Cuerpo del header -->
+                <div class="modal-header">
+                    <h2>AVISO!!</h2>
+                </div>
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <p class="h4">Se va a eliminar de la base de datos el material "<i>{{ material.nombre }}</i>". ¿Está seguro que desea continuar? </p>
+                </div>
+                <!-- Cuerpo del footer -->
+                <div class="modal-footer">
+                    <input class="btn btn-danger btn-lg" type="button" value="Cancelar" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <!-- <button class="btn btn-danger btn-lg" data-bs-dismiss="modal" aria-label="Cerrar"><h4>Cancelar</h4></button> -->
+                    <form method="POST"> {% csrf_token %}
+                        <input type="hidden" name="accion" value="eliminarM">
+                        <input type="hidden" name="codigo" value="{{material.cod}}">
+                        <input class="btn btn-primary btn-lg" type="submit" value="Eliminar">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 {% endblock %}

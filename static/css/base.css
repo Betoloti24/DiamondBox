@@ -1,6 +1,8 @@
 body{
     background-image: url("../img/fondo1.jpg");
     background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     background-size: cover;
     font-family: 'Copperplate Gothic Bold';
 }
@@ -9,6 +11,14 @@ body{
     height: 100%;
     position:  fixed;
     background-color: #AFABAB;
+}
+
+.logo{
+    width: 350px !important;
+}
+
+.row{
+    --bs-gutter-x: 0 !important;
 }
 
 @font-face {

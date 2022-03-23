@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from ProyectoBox.Metodos.Productos import *
 from ProyectoBox.BD.Inventario import *
+from django.core.files.storage import FileSystemStorage
+from ProyectoBox.settings import MEDIA_ROOT, BASE_DIR
+import os
 
 # Vista del inventario
 def inventario(request):
@@ -53,7 +56,7 @@ def inventario(request):
     contexto = {
         "productos": listaProductos(),
         "materiales": listaMateriales(),
-        "errormaterial": elimM,
+        "errormaterial": elimM
     }
 
     # Renderizar pagina    
@@ -70,10 +73,11 @@ def agregarMaterial(request):
         precio = request.POST["precio"]
         pais = request.POST["pais"]
         descripcion = request.POST["descripcion"]
+        cantidad = request.POST["cantidad"]
         if (len(descripcion) == 0 or corte == "off" or pais == "off"):
             errorDato = True
         else:
-            ingresarMaterial(nombre, descripcion, precio, corte, pais)
+            ingresarMaterial(nombre, descripcion, precio, corte, pais, cantidad)
             url = str(reverse_lazy("inventario"))
             http = HttpResponseRedirect(url)
             return http
@@ -95,6 +99,7 @@ def agregarProducto(request):
         nombre = request.POST["nombre"]
         categoria = request.POST["categoria"]
         precio = request.POST["precio"]
+        cantidad = request.POST["cantidad"]     
         # Validamos que haya algun material seleccionado
         materiales = False
         for llave in request.POST:
@@ -104,14 +109,25 @@ def agregarProducto(request):
         if (categoria == "off" or materiales == False):
             errorDato = True
         else:
+            # Datos de la imagen
+            myfile = request.FILES['archivo']               
+            imagen = nombre.replace(" ", "").lower()
+            extencion = str(myfile).split(".")[1]
+            nombreimagen = f"{imagen}.{extencion}"   
+            # Guardamos el archivo
+            fs = FileSystemStorage()
+            fs.location += "\\Productos"                   
+            # Salvamos el archivo con el nombre deseado
+            filename = fs.save(f"{nombreimagen}", myfile)    
+            # Ingresamos el archivo guardad
+            uploaded_file_url = fs.url(filename)   
             # Buscamos los materiales
             materiales = []
             for llave in request.POST:
                 if (llave[0] == "M"):
                     materiales.append(int(llave[1:]))
-            print(materiales)
             # Actualizar el producto
-            ingresarProducto(nombre, precio, categoria, materiales)
+            ingresarProducto(nombre, precio, categoria, materiales, cantidad, nombreimagen)
             url = str(reverse_lazy("inventario"))
             http = HttpResponseRedirect(url)
             return http
@@ -167,10 +183,11 @@ def modificarMaterial(request, codigo):
         precio = request.POST["precio"]
         pais = request.POST["pais"]
         descripcion = request.POST["descripcion"]
+        cantidad = request.POST["cantidad"]
         if (len(descripcion) == 0 or corte == "off" or pais == "off"):
             errorDato = True
         else:
-            updateMaterial(codigo, nombre, descripcion, precio, corte, pais)
+            updateMaterial(codigo, nombre, descripcion, precio, corte, pais, cantidad)
             url = str(reverse_lazy("inventario"))
             http = HttpResponseRedirect(url)
             return http
@@ -193,6 +210,8 @@ def modificarProducto(request, codigo):
         nombre = request.POST["nombre"]
         categoria = request.POST["categoria"]
         precio = request.POST["precio"]
+        cantidad = request.POST["cantidad"]
+        
         # Validamos que haya algun material seleccionado
         materiales = False
         for llave in request.POST:
@@ -202,14 +221,28 @@ def modificarProducto(request, codigo):
         if (categoria == "off" or materiales == False):
             errorDato = True
         else:
+            try:
+                # Datos de la imagen
+                myfile = request.FILES['archivo']               
+                imagen = nombre.replace(" ", "").lower()
+                extencion = str(myfile).split(".")[1]
+                nombreimagen = f"{imagen}.{extencion}"   
+                # Guardamos el archivo
+                fs = FileSystemStorage()
+                fs.location += "\\Productos"                   
+                # Salvamos el archivo con el nombre deseado
+                filename = fs.save(f"{nombreimagen}", myfile)    
+                # Ingresamos el archivo guardad
+                uploaded_file_url = fs.url(filename) 
+            except:
+                nombreimagen = None                
             # Buscamos los materiales
             materiales = []
             for llave in request.POST:
                 if (llave[0] == "M"):
                     materiales.append(int(llave[1:]))
-            print(materiales)
             # Actualizar el producto
-            updateProducto(codigo, nombre, precio, categoria, materiales)
+            updateProducto(codigo, nombre, precio, categoria, materiales, cantidad, nombreimagen)
             url = str(reverse_lazy("inventario"))
             http = HttpResponseRedirect(url)
             return http

@@ -17,6 +17,7 @@
         nombre nvarchar(60) not null,
         precio float(10,2) not null,
         categoria nvarchar(15) not null,
+        cantidad integer not null,
         imagen nvarchar(60) not null,
 
         constraint checkprecio_productos check (precio > 0),
@@ -35,6 +36,7 @@
         descripcion nvarchar(400) not null,
         precio float(10,2) not null,
         imagen nvarchar(20) not null,
+        cantidad integer not null,
         corte nvarchar(20),
         origen int,
 

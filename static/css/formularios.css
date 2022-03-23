@@ -1,10 +1,49 @@
-/* Selectores */
-.main{
-    padding: 20px !important;
+/* Contenedor principal */
+.contenedor{
+    margin-top: 80px !important;
+}
+/* Ficha del formulario */
+.objeto, .imagen{
+    background-color: #F2F2F2 !important;
+    box-shadow: rgba(14, 30, 37, 0.6) 0px 2px 4px 0px, rgba(14, 30, 37, 0.6) 0px 2px 16px 0px;
+}
+.imagen{
+    max-width: 270px !important;
+    min-width: 270px !important;
+    max-height: 270px !important;
+    min-height: 270px !important;
+    object-fit: contain;
+}
+.imgcomposicion{
+    max-width: 100px !important;
+    min-width: 100px !important;
+    max-height: 100px !important;
+    min-height: 100px !important;
+    object-fit: contain;
 }
 
-/* Parte Izquierda */
-.acciones{
-    min-width: 100% !important;
-    margin: 10px 0;
+/* Titulo del formulario */
+.titulo{
+    font-size: 3.5rem !important;
+    -webkit-text-stroke: 1px #7F7F7F !important;
+    text-shadow: 2.5px 2px #7F7F7F !important;
+}
+
+/* Contenido del objeto */
+.contenido, ba{
+    -webkit-text-stroke: 1px #7F7F7F !important;
+}
+.modal-body{
+    max-height: 500px !important;
+    overflow-y: auto !important;
+}
+
+/* Eliminar el margen inferior de los titulos */
+h1, h2, h3, h4, h5, h6{
+    margin-bottom: 0px;
+}
+
+/* Atributos del objeto */
+b{
+    -webkit-text-stroke: 1px #3D4536 !important;
 }
