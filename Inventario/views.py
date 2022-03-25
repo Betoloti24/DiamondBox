@@ -56,6 +56,10 @@ def inventario(request):
                 url = str(reverse_lazy("logeo"))
                 http = HttpResponseRedirect(url)
                 http.delete_cookie("usuario")
+                http.delete_cookie("Pmodificacion")
+                http.delete_cookie("Operacion")
+                http.delete_cookie("Producto")
+                http.delete_cookie("Tipo")
                 return http
 
         # Extraer datos de sesion
@@ -64,18 +68,12 @@ def inventario(request):
         nombre = ""
         tipo = ""
         operacion = ""
-        url = str(reverse_lazy("inventario"))
-        http = HttpResponseRedirect(url)
 
         if (producto):
             nombre = request.COOKIES["Producto"]
             pmod = True
             tipo = request.COOKIES["Tipo"]
             operacion = request.COOKIES["Operacion"]
-            http.delete_cookie("Pmodificacion")
-            http.delete_cookie("Producto")
-            http.delete_cookie("Tipo")
-            http.delete_cookie("Operacion")
         
         # Declaramos el contexto
         contexto = {
@@ -91,9 +89,15 @@ def inventario(request):
             "nombobj": nombobj,
             "tipooper": tipooper
         }
+        
+        http = render(request, "inventario.html", contexto)
+        http.delete_cookie("Pmodificacion")
+        http.delete_cookie("Producto")
+        http.delete_cookie("Tipo")
+        http.delete_cookie("Operacion")
 
         # Renderizar pagina    
-        return render(request, "inventario.html", contexto)
+        return http
     else:
         url = str(reverse_lazy("logeo"))
         http = HttpResponseRedirect(url)
