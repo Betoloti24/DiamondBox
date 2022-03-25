@@ -19,7 +19,6 @@ def consultarProductos():
     conexion.close()
 
     # Creamos la lista de objetos tipo productos
-
     return lista
 
 # Funcion para consultar e insertar los materiales de los productos

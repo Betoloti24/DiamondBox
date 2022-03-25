@@ -85,14 +85,15 @@
     ('Hilo Elástico', 'Hilo de cuentas elástica de color blanco de 50m por rollo, de aprox. 1 mm de ancho y 0,5 mm de espesor.', 200.00, 'Hilo Elastico.jpg', NULL, 9, 13),
     ('Hilo chino', 'Hilos chinos de colores intenso para tejer bisutería manualidades joyas joyeria de 100 metros cada rollo.', 200.00, 'Hilo Chino.jpg', NULL, 8, 47),
     ('Yesquero', 'Cómodos y prácticos, se recargan con benzina, de material liso y con relieves de figuras. ', 50.00, 'Yesquero.jfif', NULL, 6, 100);
+    
     -- DATOS DE LA TABLA DE PRODUCTOS
     insert into proyectobox.productos (nombre,precio,categoria,cantidad,imagen) values
     ('Collar de Bisutería de Piedra de Ágata', 15000, 'COLLAR', 3, 'Collar de Bisutería de Piedra de Agata.jpg'), 
     ('Agata Ruiz de la Prada', 9000, 'ANILLO', 2, 'Agata Ruiz de la Prada.jpg'),
-    ('Pulsera de Plata con Agata Azul Turquesa', 12000, 'PULCERA', 3, 'Pulsera de Plata con Agata Azul Turquesa.jpg'),
+    ('Pulsera de Plata con Agata Azul Turquesa', 12000, 'PULSERA', 3, 'Pulsera de Plata con Agata Azul Turquesa.jpg'),
     ('Anillo de Plata con Amatista', 10000, 'ANILLO', 3, 'Anillo de Plata con Amatista.jpg'),
     ('Aretes de Diamantes con Amatista', 19000, 'ARETES', 4, 'Aretes de Diamantes con Amatista.jpg'),
-    ('Pulcera de Energia con Piedras de Amazonita', 12000, 'PULCERA', 2, 'Pulcera de Energia con Piedras de Amazonita.jfif'),
+    ('PULSERA de Energia con Piedras de Amazonita', 12000, 'PULSERA', 2, 'Pulsera de Energia con Piedras de Amazonita.jfif'),
     ('Anillo de Plata y Piedra de Aventurina', 10000, 'ANILLO', 2, 'Anillo de Plata y Piedra de Aventurina.jfif'),
     ('Collares Simple de Cuarzo Cristal', 8000, 'COLLAR', 2, 'Collares Simple de Cuarzo Cristal.jfif'),
     ('Collar Pulido de Cuarzo Cristal', 8500, 'COLLAR', 3, 'Collar Pulido de Cuarzo Cristal.jfif'),
@@ -104,7 +105,7 @@
     ('Aretes de Jade Estilo Aztecas', 12000, 'ARETES', 2, 'Aretes de Jade Estilo Aztecas.jfif'),
     ('Tiara Estilo Quing con Incrustaciones de Jade', 21000, 'TIARA', 2, 'Tiara Estilo Quing con Incrustaciones de Jade.jpg'),
     ('Anillo de Plata con Incrustaciones con Jaspe', 12000, 'ANILLO', 2, 'Anillo de Plata con Incrustaciones con Jaspe.jfif'),
-    ('Pulcera de Obsidiana Pulida', 18000, 'PULCERA', 3, 'Pulcera de Obsidiana Pulida.jfif'),
+    ('PULSERA de Obsidiana Pulida', 18000, 'PULSERA', 3, 'Pulsera de Obsidiana Pulida.jfif'),
     ('Tiara de Plata con Incrustaciones de Obsidiana', 25000, 'TIARA', 3, 'Tiara de Plata con Incrustaciones de Obsidiana.jpg'),
     ('Aretes de Plata con Onix Pulido', 14000, 'ARETES', 3, 'Aretes de Plata con Onix Pulido.jfif'),
     ('Anillo de Plata con Piedra de Onix', 11500, 'ANILLO', 3, 'Anillo de Plata con Piedra de Onix.jpg'),
@@ -113,7 +114,7 @@
     ('Tiara Estilo Quing con Incrustaciones de Opalo', 23000, 'TIARA', 0, 'Tiara Estilo Quing con Incrustaciones de Opalo.jfif'),
     ('Collar de Cadena con Pirita Cortada', 12000, 'COLLAR', 0, 'Collar de Cadena con Pirita Cortada.jfif'),
     ('Anillo de Plata con Pirita', 9000, 'ANILLO', 1, 'Anillo de Plata con Pirita.jfif'),
-    ('Pulcera de Cupido de Vulcanita', 12000, 'PULCERA', 0, 'Pulcera de Cupido de Vulcanita.jfif');
+    ('PULSERA de Cupido de Vulcanita', 12000, 'PULSERA', 0, 'Pulsera de Cupido de Vulcanita.jfif');
     -- DATOS DE LA TABLA DE PRODCUTOS Y SUS PIEDRAS
     insert into proyectobox.p_m values 
     (1,24), (1,35), (2,24), (3,24), (4,20), (5,20), (5,34), (6,32), (6,35), (7,25), (8,28), (8,34), (9,28), (9,35), (10,19), (10,35), (11,19), (11,34),

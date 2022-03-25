@@ -21,7 +21,7 @@
         imagen nvarchar(60) not null,
 
         constraint checkprecio_productos check (precio > 0),
-        constraint checkcategoria_productos check (categoria in ('TIARA','ANILLO', 'COLLAR','PULCERA', 'ARETES'))
+        constraint checkcategoria_productos check (categoria in ('TIARA','ANILLO', 'COLLAR','PULSERA', 'ARETES'))
     );
     -- TABLA DE PAISES
     create table proyectobox.paises (

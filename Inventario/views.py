@@ -10,7 +10,6 @@ from os import remove
 def inventario(request):
     # Validamos que se haya hecho una sesión
     usuario = request.COOKIES.get("usuario", False)
-    print(request.COOKIES)
     if (usuario):
         # Variables de error
         elimM = False
@@ -65,16 +64,19 @@ def inventario(request):
         nombre = ""
         tipo = ""
         operacion = ""
+        url = str(reverse_lazy("inventario"))
+        http = HttpResponseRedirect(url)
+
         if (producto):
             nombre = request.COOKIES["Producto"]
             pmod = True
             tipo = request.COOKIES["Tipo"]
             operacion = request.COOKIES["Operacion"]
-            del request.COOKIES["Pmodificacion"]
-            del request.COOKIES["Producto"]
-            del request.COOKIES["Tipo"]
-            del request.COOKIES["Operacion"]
-
+            http.delete_cookie("Pmodificacion")
+            http.delete_cookie("Producto")
+            http.delete_cookie("Tipo")
+            http.delete_cookie("Operacion")
+        
         # Declaramos el contexto
         contexto = {
             "productos": listaProductos(),
@@ -91,7 +93,7 @@ def inventario(request):
         }
 
         # Renderizar pagina    
-        return render(request, 'inventario.html', contexto)
+        return render(request, "inventario.html", contexto)
     else:
         url = str(reverse_lazy("logeo"))
         http = HttpResponseRedirect(url)
