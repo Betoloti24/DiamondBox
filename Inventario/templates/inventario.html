@@ -21,13 +21,35 @@
         </div>
     </div>
     {% endif %}
+    {% if pmod %}
+    <div class="alert alert-dismissible alert-success fixed-bottom mb-0 rounded-0">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="d-flex align-items-start">
+            <svg class="bi flex-shrink-0 me-5" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#check-circle-fill"/></svg>
+            <div class="ms-4 mb-0">¡¡ÉXITO!!, el {{ tipo }} <i>{{ pnombre }}</i> se ha {{ operacion }} de la base de datos satisfactoriamente.</div>
+        </div>
+    </div>
+    {% endif %}
+    {% if elimexit %}
+    <div class="alert alert-dismissible alert-success fixed-bottom mb-0 rounded-0">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="d-flex align-items-start">
+            <svg class="bi flex-shrink-0 me-5" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#check-circle-fill"/></svg>
+            <div class="ms-4 mb-0">¡¡ÉXITO!!, el {{ objeto }} <i>{{ nombobj }}</i> se ha {{ tipooper }} de la base de datos satisfactoriamente.</div>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="row">
         <div class="izq col-3 text-center py-5 px-0">
-            <img src="../../static/img/logo1.png" class="logo mb-5 ms-3" alt=""> 
+            <img src="../../static/img/logo1.png" class="logo mb-5 p-3" alt=""> 
             <a href="{% url 'agregarP' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3 mt-5"><h3 class="mb-0">Agregar Producto</h3></button></a>
             <a href="{% url 'agregarM' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Agregar Material</h3></button></a>
             <a href="{% url 'consultar' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Consultar</h3></button></a>
+            <form method="POST"> {% csrf_token %}
+                <input type="hidden" name="accion" value="cerrar">
+                <button type="submit" class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Cerrar Sesión</h3></button>
+            </form>
         </div>
         <div class="col-3"></div>
         <div class="col-9 p-4 d-block">
@@ -76,8 +98,8 @@
                         <div class="contenido col-7 mt-3 d-flex align-items-center p-0">
                             <h4 class="text-primary"> Identificacion: M{{ material.cod }} <br>
                             Precio: {{ material.precio }}$ <br>
-                            Corte: {{ material.corte }} <br>
-                            Origen: {{ material.origen }} <br>
+                            {% if material.corte %} Corte: {{ material.corte }} <br> {% endif %}
+                            {% if material.origen and material.origen != 'None' %} Origen: {{ material.origen }} <br> {% endif %}
                             Cantidad: {{ material.cantidad }}
                             </h4>
                         </div>
@@ -156,4 +178,24 @@
         </div>
     </div>
     {% endfor %}
+    <!-- <script>
+        const close_session  = (e) => {
+            e.preventDefault();
+            const URL = "{% url 'logeo'%}"
+            fetch(URL, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'action': 'close_session'
+                })
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = URL;
+                }
+            });
+        };
+    </script> -->
 {% endblock %}

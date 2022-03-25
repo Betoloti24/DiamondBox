@@ -1,3 +1,4 @@
+from msilib.schema import CheckBox
 from Inventario.models import Pais, Producto, Material
 from ProyectoBox.BD.Inventario import *
 
@@ -23,14 +24,22 @@ def listaProductos():
     return lista
 
 # Metodo para crear la lista de materiales
-def listaMateriales():
+def listaMateriales(**kwars):
     # Consultamos la lista de productos en la BD
     listaprod = consultarMateriales()
     lista = []
 
     # Creamos la lista de los productos
-    for prod in listaprod:
-        lista.append(Material(prod))
+    check = kwars.get("checks", None)
+    if (check):
+        for prod in listaprod:
+            if prod[0] in check:
+                lista.insert(0, Material(prod))
+            else:
+                lista.append(Material(prod))
+    else:
+        for prod in listaprod:
+            lista.append(Material(prod))
 
     return lista
 

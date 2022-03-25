@@ -1,3 +1,4 @@
+from email.mime import image
 from mysql.connector import connect
 from Inventario.models import Material, Producto
 
@@ -160,14 +161,13 @@ def consultarMaterial(cod):
     else:
         objeto = None
 
-    print(f"{objeto}--{cod}")
     # Hacer permanente los cambios y cerrar conexion
     conexion.close()
 
     return objeto
 
 # Modificar material
-def updateMaterial(cod, nombre, descripcion, precio, corte, origen, cantidad):
+def updateMaterial(cod, nombre, descripcion, precio, corte, origen, cantidad, imagen):
      # Realizar conexion
     conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
 
@@ -175,7 +175,17 @@ def updateMaterial(cod, nombre, descripcion, precio, corte, origen, cantidad):
     cursor = conexion.cursor()
 
     # Creamos y ejecutamos el DML
-    DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', cantidad = '{cantidad}', descripcion = '{descripcion}', precio = {precio}, corte = '{corte}', origen = {origen} WHERE cod = {cod}"
+    if (imagen):
+        if (corte != "NULL"):
+            DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', cantidad = '{cantidad}', imagen = '{imagen}', descripcion = '{descripcion}', precio = {precio}, corte = '{corte}', origen = {origen} WHERE cod = {cod}"
+        else:
+            DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', cantidad = '{cantidad}', imagen = '{imagen}', descripcion = '{descripcion}', precio = {precio}, corte = {corte}, origen = {origen} WHERE cod = {cod}"
+    else:
+        if (corte != "NULL"):
+            DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', cantidad = '{cantidad}', descripcion = '{descripcion}', precio = {precio}, corte = '{corte}', origen = {origen} WHERE cod = {cod}"
+        else:
+            DML = f"UPDATE proyectobox.materiales set nombre = '{nombre}', cantidad = '{cantidad}', descripcion = '{descripcion}', precio = {precio}, corte = {corte}, origen = {origen} WHERE cod = {cod}"
+
     cursor.execute(DML)
 
     # Hacer permanente los cambios y cerrar conexion
@@ -212,7 +222,7 @@ def updateProducto(cod, nombre, precio, categoria, materiales, cantidad, imagen)
     conexion.close()
 
 # Ingresar material
-def ingresarMaterial(nombre, descripcion, precio, corte, origen, cantidad):
+def ingresarMaterial(nombre, descripcion, precio, corte, origen, cantidad, imagen):
      # Realizar conexion
     conexion = connect(host = "localhost", user = "root", password = "2357", database = "proyectobox", port = "3306")
 
@@ -220,7 +230,10 @@ def ingresarMaterial(nombre, descripcion, precio, corte, origen, cantidad):
     cursor = conexion.cursor()
 
     # Creamos y ejecutamos el DML
-    DML = f"INSERT INTO proyectobox.materiales (nombre,descripcion,precio,corte,origen,cantidad,imagen) VALUES ('{nombre}', '{descripcion}', {precio}, '{corte}', {origen}, {cantidad}, '')"
+    if (corte != "NULL"):
+        DML = f"INSERT INTO proyectobox.materiales (nombre,descripcion,precio,corte,origen,cantidad,imagen) VALUES ('{nombre}', '{descripcion}', {precio}, '{corte}', {origen}, {cantidad}, '{imagen}')"
+    else:
+        DML = f"INSERT INTO proyectobox.materiales (nombre,descripcion,precio,corte,origen,cantidad,imagen) VALUES ('{nombre}', '{descripcion}', {precio}, {corte}, {origen}, {cantidad}, '{imagen}')"
     cursor.execute(DML)
 
     # Hacer permanente los cambios y cerrar conexion

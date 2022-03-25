@@ -82,9 +82,9 @@
     ('Jaspe', 'Es una roca sedimentaria. Posee una superficie suave y se utiliza para ornamentación o como gema. Se puede pulir y utilizar en floreros, sellos y, tiempo atrás se la utilizó para cajas de tabaco.', 3600.00, 'Jaspe.jfif', 'PRINCESA', 4, 145),
     ('Amazonita', 'Es la escasa variedad verde de la microclina, un mineral del grupo de los feldespatos. Durante muchos años se pensó que su color se debía al cobre ya que los compuestos de este metal suelen ser verdes o azules.', 3800.00, 'Amazonita.jfif', 'OVALO', 9, 160),
     ('Jade Rojo', 'Consiste en uno de los minerales exóticos más destacados y valiosos del planeta. Es una variedad de jade con una tonalidad intensa parecida a la sangre. Se distingue de otros minerales similares por tener una mayor densidad y dureza.', 4100.00, 'Jade Rojo.jpg', 'RADIANTE', 8, 165),
-    ('Hilo Elástico', 'Hilo de cuentas elástica de color blanco de 50m por rollo, de aprox. 1 mm de ancho y 0,5 mm de espesor.', 200.00, 'Hilo Elastico.jpg', NULL, 9, NULL),
-    ('Hilo chino', 'Hilos chinos de colores intenso para tejer bisutería manualidades joyas joyeria de 100 metros cada rollo.', 200.00, 'Hilo Chino.jpg', NULL, 8, NULL),
-    ('Yesquero', 'Cómodos y prácticos, se recargan con benzina, de material liso y con relieves de figuras. ', 50.00, 'Yesquero.jfif', NULL, 6, NULL);
+    ('Hilo Elástico', 'Hilo de cuentas elástica de color blanco de 50m por rollo, de aprox. 1 mm de ancho y 0,5 mm de espesor.', 200.00, 'Hilo Elastico.jpg', NULL, 9, 13),
+    ('Hilo chino', 'Hilos chinos de colores intenso para tejer bisutería manualidades joyas joyeria de 100 metros cada rollo.', 200.00, 'Hilo Chino.jpg', NULL, 8, 47),
+    ('Yesquero', 'Cómodos y prácticos, se recargan con benzina, de material liso y con relieves de figuras. ', 50.00, 'Yesquero.jfif', NULL, 6, 100);
     -- DATOS DE LA TABLA DE PRODUCTOS
     insert into proyectobox.productos (nombre,precio,categoria,cantidad,imagen) values
     ('Collar de Bisutería de Piedra de Ágata', 15000, 'COLLAR', 3, 'Collar de Bisutería de Piedra de Agata.jpg'), 

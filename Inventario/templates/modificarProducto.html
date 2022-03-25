@@ -3,6 +3,7 @@
 
 {% block statico %}
     <link rel="stylesheet" type="text/css" href="{% static 'CSS/formularios.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/base2.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block titulo %}
@@ -16,16 +17,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <div class="d-flex align-items-start">
             <svg class="bi flex-shrink-0 me-5" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-            <div class="ms-4 mb-0">¡¡ERROR!!, olvidó seleccionar una <i>Categoría</i> o un <i>Material</i>, ingrese los datos faltantes y vuelva a intentar.</div>
+            <div class="ms-4 mb-0">¡¡ERROR!!, olvidó seleccionar una <i>Categoría</i> y/o un <i>Material</i>, ingrese los datos faltantes y vuelva a intentar.</div>
         </div>
     </div>
     {% endif %}
     <div class="row">
         <div class="izq col-3 text-center py-5 px-0">
-            <img src="../../static/img/logo1.png" class="logo mb-5 ms-3" alt=""> 
-            <a href="{% url 'inventario' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3 mt-5"><h3 class="mb-0">Inventario</h3></button></a>
+            <img src="../../static/img/logo1.png" class="logo mb-5 p-3" alt=""> 
+            <a href="{% url 'inventario' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3 mt-4"><h3 class="mb-0">Inventario</h3></button></a>
+            <a href="{% url 'agregarP' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Agregar Producto</h3></button></a>
             <a href="{% url 'agregarM' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Agregar Material</h3></button></a>
             <a href="{% url 'consultar' %}"><button class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Consultar</h3></button></a>
+            <form method="POST"> {% csrf_token %}
+                <input type="hidden" name="cerrar" value="cerrar">
+                <button type="submit" class="btn btn-outline-primary rounded-0 btn-lg col-12 py-3"><h3 class="mb-0">Cerrar Sesión</h3></button>
+            </form>
         </div>
         <div class="col-3"></div>
         <div class="col-9 p-5">
@@ -33,17 +39,17 @@
                 <form class="objeto col-10 mt-5 py-4 px-5" method="post" enctype="multipart/form-data"> {% csrf_token %}
                     <div class="row">
                         <div class="col-12 text-center text-light">
-                            <h1 class="titulo">Agregar Producto</h1>
+                            <h1 class="titulo">Modificar Producto</h1>
                         </div>
                     </div>
                     <div class="row mt-2 d-flex align-items-center">
                         <div class="col-7 py-3 ps-3 pe-5">
                             <div class="row mt-3">
-                                <h4><b class="text-primary col-12">Ingrese el Nombre:</b> </h4>
+                                <h4><abbr class="text-danger">*</abbr> <b class="text-primary col-12">Ingrese el Nombre:</b> </h4>
                                 <div class="col-12 mb-3"><input type="text" name="nombre" value="{{ producto.nombre }}" autocomplete="off" required class="form-control form-control-lg"></div>
-                                <h4><b class="text-primary col-12">Ingrese el Precio ($):</b> </h4>
+                                <h4><abbr class="text-danger">*</abbr> <b class="text-primary col-12">Ingrese el Precio ($):</b> </h4>
                                 <div class="col-12 mb-3"><input type="number" name="precio" value="{{ producto.precio }}" min="0" autocomplete="off" required class="form-control form-control-lg"></div>
-                                <h4><b class="text-primary col-12">Seleccione la Categoria:</b> </h4>
+                                <h4><abbr class="text-danger">*</abbr> <b class="text-primary col-12">Seleccione la Categoria:</b> </h4>
                                 <div class="col-12 mb-3">
                                     <select name="categoria" class="form-select form-select-lg">
                                         <option value="off">SELECCIONAR</option>
@@ -54,20 +60,25 @@
                                         <option value="ARETES" {% if producto.categoria == 'ARETES' %} selected {% endif %}>ARETES</option>
                                     </select>
                                 </div>
-                                <h4><b class="text-primary col-12">Ingrese la Cantidad:</b> </h4>
+                                <h4><abbr class="text-danger">*</abbr> <b class="text-primary col-12">Ingrese la Cantidad:</b> </h4>
                                 <div class="col-12 mb-3"><input type="number" value="{{ producto.cantidad }}" name="cantidad" min="0" autocomplete="off" required class="form-control form-control-lg"></div>
                                 <h4 class="mb-3 col-12 d-flex justify-content-between">
-                                    <b class="text-primary col-6">Ingrese los Materiales:</b> 
+                                    <div class="d-flex align-content-center">
+                                        <abbr class="text-danger me-2">*</abbr><b class="text-primary col-8">Ingrese los Materiales:</b> 
+                                    </div>
                                     <button type="button" data-bs-target="#composicion" data-bs-toggle="modal" class="btn btn-lg btn-success">Seleccionar</button>
                                 </h4>
                             </div>
                         </div>
                         <div class="col-5 text-center p-3">
                             <img src="{{ producto.imagen }}" class="imagen rounded" id="imagen">
-                            <input type="file" class="form-control form-control-lg mt-4" name="archivo" id="archivo">
+                            <div class="d-flex">
+                                <abbr class="text-danger mt-4 me-2">*</abbr> 
+                                <input type="file" class="form-control form-control-lg mt-4" name="archivo" id="archivo">
+                            </div> 
                             <div class="row">
                                 <div class="col-12 d-flex justify-content-end mt-3">
-                                    <input type="submit" class="btn btn-success btn-lg mt-4" value="Actualizar">
+                                    <input type="button" data-bs-target="#confirmacion" data-bs-toggle="modal" class="btn btn-success btn-lg mt-4" value="Actualizar">
                                 </div>
                             </div>
                         </div>                        
@@ -113,41 +124,30 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Modal confirmacion -->
+                    <div class="modal fade" id="confirmacion" tabindex="-1" aria-hidden="true" aria-labelledby="label-modal2" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <!-- Cuerpo del header -->
+                                <div class="modal-header">
+                                    <h2>AVISO!!</h2>
+                                </div>
+                                <!-- Cuerpo del modal -->
+                                <div class="modal-body">
+                                    <p class="h4">Se va a actualizar en la base de datos el producto <i>{{material.nombre}}</i>. ¿Está seguro que desea continuar? </p>
+                                </div>
+                                <!-- Cuerpo del footer -->
+                                <div class="modal-footer">
+                                    <input class="btn btn-danger btn-lg" type="button" value="Cancelar" data-bs-dismiss="modal" aria-label="Cerrar">
+                                    <input class="btn btn-success btn-lg" type="submit" value="Confirmar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="{% static 'js/previsualizar.js' %}"></script>
-    <!-- <div class="izq">  
-        <a href="{% url 'inventario' %}" class="acciones btn btn-outline-info">Inventario</a>
-        <a href="{% url 'agregarM' %}" class="acciones btn btn-outline-primary">Agregar Material</a>
-        <a href="{% url 'agregarP' %}" class="acciones btn btn-outline-warning">Agergar Producto</a>
-        <a href="{% url 'consultar' %}" class="acciones btn btn-outline-success">Consultar</a>
-        {% if errorDato == True %}
-            <h4>ERROR, debe de completar todos los campos</h4>
-        {% endif %}
-    </div>
-    <div class="der" style="text-align: justify !important;">
-        <h2>Modificar Producto</h2>
-        <form method="POST"> {% csrf_token %}
-            <h5>Ingrese el Nombre del Producto</h5>
-            <input type="text" name="nombre" value="{{ producto.nombre }}" autocomplete="off" required> <br><br>
-            <h5>Ingrese el Precio del Producto</h5>
-            <input type="number" name="precio" value="{{ producto.precio }}" min="0" autocomplete="off" required> <br><br>
-            <h5>Seleccione la Categoria del Producto</h5>
-            <select name="categoria">
-                <option value="off">SELECCIONAR</option>
-                <option value="TIARA" {% if producto.categoria == 'TIARA' %} selected {% endif %}>TIARA</option>
-                <option value="ANILLO" {% if producto.categoria == 'ANILLO' %} selected {% endif %}>ANILLO</option>
-                <option value="COLLAR" {% if producto.categoria == 'COLLAR' %} selected {% endif %}>COLLAR</option>
-                <option value="PULCERA" {% if producto.categoria == 'PULCERA' %} selected {% endif %}>PULCERA</option>
-                <option value="ARETES" {% if producto.categoria == 'ARETES' %} selected {% endif %}>ARETES</option>
-            </select> <br><br>
-            <h5>Seleccione los Materiales del Producto</h5>
-            {% for material in materiales %}
-                <input type="checkbox" class="form-check-label" name="M{{ material.cod }}" {% if material.cod in check %} checked {% endif %}> {{ material.nombre }}
-            {% endfor %} <br> <br>
-            <input type="submit" class="btn btn-outline-success" value="Actualizar">
-        </form>
-    </div> -->
 {% endblock %}
